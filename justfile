@@ -49,6 +49,10 @@ lint: lock
 typecheck: lock
     {{uv_run}} pyright
 
+# Run charmlint on the charm
+charmlint: lock
+    {{uv_run}} charmlint .
+
 # Run unit tests
 unit *args: lock
     {{uv_run}} coverage run \
@@ -108,7 +112,7 @@ clean:
     rm -f {{project_dir / "apptainer_"}}*.charm
 
 # Apply static checks
-check: lint typecheck
+check: lint typecheck charmlint
 
 # Regenerate uv.lock
 lock:

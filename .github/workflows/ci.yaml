@@ -60,8 +60,6 @@ jobs:
         run: sudo snap install astral-uv --classic
       - name: Run lint checks
         run: just lint
-      - name: Run lint checks
-        run: just lint
 
   typecheck:
     name: Static type checks
@@ -75,6 +73,19 @@ jobs:
         run: sudo snap install astral-uv --classic
       - name: Run static type checks
         run: just typecheck
+
+  charmlint:
+    name: Charm lint checks
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Install `just`
+        run: sudo snap install just --classic
+      - name: Install `uv`
+        run: sudo snap install astral-uv --classic
+      - name: Run charmlint
+        run: just charmlint
 
   unit-test:
     name: Unit tests
@@ -95,6 +106,7 @@ jobs:
     needs:
       - lint
       - typecheck
+      - charmlint
       - unit-test
       - commitlint
     steps:
