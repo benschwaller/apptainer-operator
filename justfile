@@ -44,14 +44,11 @@ fmt: lock
 lint: lock
     {{uv_run}} codespell {{src_dir}}
     {{uv_run}} ruff check {{src_dir}}
+    {{uv_run}} charmlint .
 
 # Run static type checker on code
 typecheck: lock
     {{uv_run}} pyright
-
-# Run charmlint on the charm
-charmlint: lock
-    {{uv_run}} charmlint .
 
 # Run unit tests
 unit *args: lock
@@ -112,7 +109,7 @@ clean:
     rm -f {{project_dir / "apptainer_"}}*.charm
 
 # Apply static checks
-check: lint typecheck charmlint
+check: lint typecheck
 
 # Regenerate uv.lock
 lock:
